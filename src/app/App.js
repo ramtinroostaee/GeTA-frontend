@@ -12,18 +12,17 @@ import {selectCurrLangDir} from 'app/store/i18nSlice';
 import withAppProviders from './withAppProviders';
 import {Auth} from './auth';
 import "reusable/Form/Validations";
-import {initInterceptors} from "../reusable/axios";
+import {initInterceptors} from "reusable/axios";
 import {hideLoader, showLoader} from "./store/LoaderSlice";
 import {ToastContainer} from "react-toastify";
 import {BallTriangle} from "react-loader-spinner";
-import axios from 'axios';
 
+// import axios from 'axios';
 /**
  * Axios HTTP Request defaults
  */
 
-axios.defaults.baseURL = "https://barname.karbaladapp.ir/";
-axios.defaults.headers.common.Authorization = `Bearer 195|Y3OEfdAnrZTUeJAHlEnXhE20rKv26NKPDBEMecXb`;
+// axios.defaults.baseURL = "https://barname.karbaladapp.ir/";
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 // axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
 
