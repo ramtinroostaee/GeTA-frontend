@@ -22,6 +22,13 @@ const navigationConfig = [
         type: 'item',
         icon: 'whatshot',
         url: 'example',
+      }, {
+        id: 'profile',
+        title: 'Profile',
+        translate: 'Profile',
+        type: 'item',
+        icon: 'whatshot',
+        url: 'pages/profile',
       },
     ],
   },
