@@ -2,6 +2,8 @@ import { toast } from "react-toastify";
 
 export const DEFAULT_ERROR = () => toast.error(DEFAULT_ERROR_MESSAGE);
 export const DEFAULT_ERROR_MESSAGE = "Sth. went wrong. Try again";
+export const SUCCESS = "با موفقیت ثبت شد";
+export const NOT_FOUND = "موردی یافت نشد";
 
 export const FIELD_REQUIRED = "این فیلد الزامی است";
 export const FIELD_REQUIRED2 = "این فیلد را تکمیل نمایید";

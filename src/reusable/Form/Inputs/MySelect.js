@@ -1,5 +1,5 @@
 import React from "react";
-import { Field } from "formik";
+import { FastField } from "formik";
 import {
   InputLabel,
   Select,
@@ -13,7 +13,6 @@ const MySelect = (props) => {
     label,
     name,
     options,
-    afterinput,
     className,
     formcontrol,
     select,
@@ -22,10 +21,11 @@ const MySelect = (props) => {
   } = props;
 
   return (
-    <Field name={name}>
+    <FastField name={name}>
       {({ field, form }) => (
         <FormControl
-          disabled={disabled}
+          disabled={disabled || !options?.length}
+          size="small"
           className={className}
           fullWidth
           variant="outlined"
@@ -54,7 +54,7 @@ const MySelect = (props) => {
           </FormHelperText>
         </FormControl>
       )}
-    </Field>
+    </FastField>
   );
 };
 

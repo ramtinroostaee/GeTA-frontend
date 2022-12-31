@@ -1,4 +1,4 @@
-import {Formik, Form} from "formik";
+import {Form, Formik} from "formik";
 import React, {
   forwardRef,
   useCallback,
@@ -15,6 +15,8 @@ import Checkbox from "./Inputs/MyCheckbox";
 import RadioGroup from "./Inputs/MyRadioGroup";
 import * as yup from "yup";
 import {Button, Grid} from "@mui/material";
+// import {PatternFormat} from "react-number-format";
+// import persianRex from "persian-rex";
 
 export const Components = {
   DatePicker,
@@ -40,12 +42,13 @@ export const createValidationInit = (inputData, ref) => {
   const validationSchemas = {};
   const v = {};
   inputData.map((e) => {
-    v[e.name] = ref?.current?.values[e.name] ?? e.init ?? "";
+    if (ref?.current?.values)
+      v[e.name] = ref?.current?.values[e.name] ?? e.init ?? "";
 
     initialValuess[e.name] = e.init ?? "";
     validationSchemas[e.name] = e.validation;
   });
-  ref?.current?.resetForm({values: v});
+  if (ref?.current?.resetForm) ref?.current?.resetForm({values: v});
 
   return {initialValuess, validationSchemas: yup.object(validationSchemas)};
 };
@@ -56,7 +59,6 @@ const FormCreate = forwardRef(
     const [initialValues, setInitialValues] = useState();
     const [validationSchema, setValidationSchema] = useState();
     const [data, setData] = useState(inputData);
-    console.log(data);
 
     useEffect(() => {
       if (inputData) {
@@ -73,7 +75,7 @@ const FormCreate = forwardRef(
             return rest;
           })
         );
-      }
+      } else setInitialValues();
     }, [inputData]);
 
     useEffect(() => setOonSubmit(() => onSubmit), [onSubmit]);
@@ -118,6 +120,12 @@ const FormCreate = forwardRef(
       );
     }, [validationSchema, initialValues, data, oonSubmit]);
 
+    useEffect(() => {
+      if (form === undefined && ref?.current?.resetForm) {
+        ref?.current?.resetForm({values: {}});
+      }
+    }, [form]);
+
     return <>{form}</>;
   }
 );
@@ -125,13 +133,67 @@ const FormCreate = forwardRef(
 export default FormCreate;
 
 export const typeOnlyNumber = (event) => {
-  if (
+  if (event.code === "KeyC" || event.code === "KeyV" || event.code === "KeyA") {
+    if (!event.ctrlKey) {
+      event.preventDefault();
+    }
+  } else if (
     !(
       event.key === "Backspace" ||
+      event.key === "ArrowRight" ||
+      event.key === "ArrowLeft" ||
       event.key === "Enter" ||
-      /\d/.test(event.key)
+      event.key === "Tab" ||
+      /\d/.test(event.key) ||
+      persianRex.number.test(event.key)
     )
   ) {
     event.preventDefault();
   }
 };
+
+// export const typePersianLetter = (event) => {
+//   const persianRex = require("persian-rex");
+//   if (
+//     !(
+//       event.key === "Backspace" ||
+//       event.key === "ArrowRight" ||
+//       event.key === "ArrowLeft" ||
+//       event.key === "Enter" ||
+//       event.key === "Tab" ||
+//       event.key === " " ||
+//       persianRex.letter.test(event.key)
+//     )
+//   ) {
+//     event.preventDefault();
+//   }
+// };
+
+// export const withOptionsAutoComplete = {
+//   getOptionSelected: (option, value) => option.value === value.value,
+//   getOptionLabel: (option) => option?.value ?? "",
+//   getRequestValue: (value) => value?.id,
+//   renderOption: (option) => (
+//     <Typography variant="body1">{option.value}</Typography>
+//   ),
+// };
+
+// export const NumberFormatCustom = ({ inputRef, ...rest }) => (
+//   <PatternFormat
+//     {...rest}
+//     getInputRef={inputRef}
+//     format="14##/## -- ######"
+//     allowEmptyFormatting
+//     mask="_"
+//   />
+// );
+//
+// export const PelakFormat = ({ inputRef, ...rest }) => (
+//   <PatternFormat
+//     {...rest}
+//     getInputRef={inputRef}
+//     format={"##" +  "ع" + "######"}
+//     allowEmptyFormatting
+//     mask="_"
+//   />
+// );
