@@ -16,15 +16,16 @@ import {initInterceptors} from "reusable/axios";
 import {hideLoader, showLoader} from "./store/LoaderSlice";
 import {ToastContainer} from "react-toastify";
 import {BallTriangle} from "react-loader-spinner";
+import axios from "axios";
 
 // import axios from 'axios';
 /**
  * Axios HTTP Request defaults
  */
 
-// axios.defaults.baseURL = "https://barname.karbaladapp.ir/";
+axios.defaults.baseURL = "http://localhost:8000/";
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-// axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const emotionCacheOptions = {
   rtl: {
