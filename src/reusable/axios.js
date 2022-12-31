@@ -2,7 +2,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 
 axios.defaults.baseURL = "https://barname.karbaladapp.ir/";
-axios.defaults.headers.common.Authorization = `Bearer 195|Y3OEfdAnrZTUeJAHlEnXhE20rKv26NKPDBEMecXb`;
+// axios.defaults.headers.common.Authorization = `Bearer 195|Y3OEfdAnrZTUeJAHlEnXhE20rKv26NKPDBEMecXb`;
 
 export const apiCallTry = async (fu) => {
   try {

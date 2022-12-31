@@ -2,12 +2,12 @@ import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import auth0Service from 'app/services/auth0Service';
 import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from '@reduxjs/toolkit';
-import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
+import {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from '@reduxjs/toolkit';
+import {hideMessage, showMessage} from 'app/store/fuse/messageSlice';
 
-import { setUserDataFirebase, setUserDataAuth0, setUserData, logoutUser } from './store/userSlice';
+import {setUserDataFirebase, setUserDataAuth0, setUserData, logoutUser} from './store/userSlice';
 
 class Auth extends Component {
   state = {
@@ -19,16 +19,16 @@ class Auth extends Component {
       // Comment the lines which you do not use
       // this.firebaseCheck(),
       // this.auth0Check(),
-      // this.jwtCheck(),
+      this.jwtCheck(),
     ]).then(() => {
-      this.setState({ waitAuthCheck: false });
+      this.setState({waitAuthCheck: false});
     });
   }
 
   jwtCheck = () =>
     new Promise((resolve) => {
       jwtService.on('onAutoLogin', () => {
-        this.props.showMessage({ message: 'Logging in with JWT' });
+        this.props.showMessage({message: 'Logging in with JWT'});
 
         /**
          * Sign in and retrieve user data from Api
@@ -40,10 +40,10 @@ class Auth extends Component {
 
             resolve();
 
-            this.props.showMessage({ message: 'Logged in with JWT' });
+            this.props.showMessage({message: 'Logged in with JWT'});
           })
           .catch((error) => {
-            this.props.showMessage({ message: error.message });
+            this.props.showMessage({message: error?.message});
 
             resolve();
           });
@@ -51,7 +51,7 @@ class Auth extends Component {
 
       jwtService.on('onAutoLogout', (message) => {
         if (message) {
-          this.props.showMessage({ message });
+          this.props.showMessage({message});
         }
 
         this.props.logout();
@@ -77,7 +77,7 @@ class Auth extends Component {
       });
 
       if (auth0Service.isAuthenticated()) {
-        this.props.showMessage({ message: 'Logging in with Auth0' });
+        this.props.showMessage({message: 'Logging in with Auth0'});
 
         /**
          * Retrieve user data from Auth0
@@ -87,7 +87,7 @@ class Auth extends Component {
 
           resolve();
 
-          this.props.showMessage({ message: 'Logged in with Auth0' });
+          this.props.showMessage({message: 'Logged in with Auth0'});
         });
       } else {
         resolve();
@@ -106,7 +106,7 @@ class Auth extends Component {
 
       firebaseService.onAuthStateChanged((authUser) => {
         if (authUser) {
-          this.props.showMessage({ message: 'Logging in with Firebase' });
+          this.props.showMessage({message: 'Logging in with Firebase'});
 
           /**
            * Retrieve user data from Firebase
@@ -117,9 +117,9 @@ class Auth extends Component {
 
               resolve();
 
-              this.props.showMessage({ message: 'Logged in with Firebase' });
+              this.props.showMessage({message: 'Logged in with Firebase'});
             },
-            (error) => {
+            () => {
               resolve();
             }
           );
@@ -132,7 +132,7 @@ class Auth extends Component {
     });
 
   render() {
-    return this.state.waitAuthCheck ? <FuseSplashScreen /> : <>{this.props.children}</>;
+    return this.state.waitAuthCheck ? <FuseSplashScreen/> : <>{this.props.children}</>;
   }
 }
 
