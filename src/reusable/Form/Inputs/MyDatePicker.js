@@ -1,14 +1,15 @@
 import React from "react";
-import DatePicker, {DateObject} from "react-multi-date-picker";
+import DatePicker, { DateObject } from "react-multi-date-picker";
 import persianCalender from "react-date-object/calendars/persian";
 import persian from "react-date-object/locales/persian_fa";
-import {Icon, TextField} from "@mui/material";
-import {Field} from "formik";
+import { Icon, TextField } from "@material-ui/core";
+import { FastField } from "formik";
 import transition from "react-element-popper/animations/transition";
 import opacity from "react-element-popper/animations/opacity";
 import gregorian from "react-date-object/calendars/gregorian";
-import InputAdornment from "@mui/material/InputAdornment";
-import {digitsFaToEn} from "@persian-tools/persian-tools";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import { digitsFaToEn } from "@persian-tools/persian-tools";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 // export const p2e = (s) => {
 //   try {
@@ -18,9 +19,9 @@ import {digitsFaToEn} from "@persian-tools/persian-tools";
 //   }
 // };
 
-const MyDatePicker = ({label, name, datePicker, textField, disabled}) => (
-  <Field name={name}>
-    {({field, form}) => (
+const MyDatePicker = ({ label, name, datePicker, textField, disabled }) => (
+  <FastField name={name}>
+    {({ field, form }) => (
       <DatePicker
         disabled={disabled ?? false}
         id={name}
@@ -48,6 +49,7 @@ const MyDatePicker = ({label, name, datePicker, textField, disabled}) => (
             variant="outlined"
             fullWidth
             value={value}
+            size="small"
             disabled={disabled ?? false}
             {...textField}
           />
@@ -64,7 +66,19 @@ const MyDatePicker = ({label, name, datePicker, textField, disabled}) => (
         {...datePicker}
       />
     )}
-  </Field>
+  </FastField>
 );
 
 export default MyDatePicker;
+
+export const convertDate = (date) => {
+  const time = new DateObject({
+    calendar: persianCalender,
+    locale: persian_fa,
+    date: date,
+  });
+
+  time.convert(gregorian);
+  console.log(digitsFaToEn(time.format("YYYY-MM-DD")));
+  return digitsFaToEn(time.format("YYYY-MM-DD"));
+};

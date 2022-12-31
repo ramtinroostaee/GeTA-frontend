@@ -1,5 +1,5 @@
 import React from "react";
-import { Field } from "formik";
+import { FastField } from "formik";
 import {
   FormControl,
   FormHelperText,
@@ -14,11 +14,12 @@ const MyRadioGroup = (props) => {
     props;
 
   return (
-    <Field name={name}>
+    <FastField name={name}>
       {({ field, form }) => (
         <FormControl disabled={disabled} size="small" fullWidth variant="outlined" {...formcontrol}>
           <FormLabel>{label}</FormLabel>
           <RadioGroup
+            size="small"
             row={radiogroup?.row ?? false}
             aria-labelledby="row-radio-buttons-group-label"
             name={name}
@@ -49,7 +50,7 @@ const MyRadioGroup = (props) => {
           </FormHelperText>
         </FormControl>
       )}
-    </Field>
+    </FastField>
   );
 };
 

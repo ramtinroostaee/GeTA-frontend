@@ -1,16 +1,16 @@
 import React from "react";
-import {Field} from "formik";
+import { FastField } from "formik";
 import Checkbox from "@mui/material/Checkbox";
-import {FormControl} from "@mui/material";
+import { FormControl } from "@mui/material";
 import clsx from "clsx";
 
-const MyTextField = ({label, name, formcontrol, checkbox, ...rest}) => {
+const MyTextField = ({ label, name, formcontrol, checkbox, ...rest }) => {
   return (
-    <Field name={name}>
-      {({field}) => (
+    <FastField name={name}>
+      {({ field }) => (
         <FormControl
           className={clsx(
-            formcontrol?.className ?? "",
+            rest?.formcontrol?.className ?? "",
             "flex flex-row items-center"
           )}
           fullWidth
@@ -28,7 +28,7 @@ const MyTextField = ({label, name, formcontrol, checkbox, ...rest}) => {
           <label htmlFor={name}>{label}</label>
         </FormControl>
       )}
-    </Field>
+    </FastField>
   );
 };
 

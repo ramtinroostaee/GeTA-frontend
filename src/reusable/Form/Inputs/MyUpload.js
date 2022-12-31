@@ -1,10 +1,10 @@
 import { Button, FormControl, Icon, Input } from "@mui/material";
-import { Field } from "formik";
+import { FastField } from "formik";
 import React from "react";
 import clsx from "clsx";
 
-const MyUpload = ({ label, name, accept, ...rest }) => (
-  <Field name={name}>
+const MyUpload = ({ label, name, accept, onChange, ...rest }) => (
+  <FastField name={name}>
     {({ field, form }) => {
       const { value, ...restField } = field;
       // console.log(value);
@@ -24,9 +24,11 @@ const MyUpload = ({ label, name, accept, ...rest }) => (
               id={name}
               type="file"
               {...restField}
-              onChange={(event) =>
-                form.setFieldValue(name, event.target.files[0])
-              }
+              onChange={(event) => {
+                const formikHandle = () =>
+                  form.setFieldValue(name, event.target.files[0]);
+                onChange ? onChange(event, formikHandle) : formikHandle();
+              }}
               {...rest}
             />
             <Button
@@ -42,7 +44,7 @@ const MyUpload = ({ label, name, accept, ...rest }) => (
         </FormControl>
       );
     }}
-  </Field>
+  </FastField>
 );
 
 export default MyUpload;

@@ -1,10 +1,10 @@
 import React from "react";
-import { Field } from "formik";
+import { FastField } from "formik";
 import TextField from "@mui/material/TextField";
 
 const MyTextField = ({ label, name, textfield, ...rest }) => {
   return (
-    <Field name={name}>
+    <FastField name={name}>
       {({ field, form }) => {
         const { value, ...restField } = field;
 
@@ -18,13 +18,14 @@ const MyTextField = ({ label, name, textfield, ...rest }) => {
             variant="outlined"
             fullWidth
             value={value ?? ""}
+            size="small"
             {...restField}
             {...rest}
             {...textfield}
           />
         );
       }}
-    </Field>
+    </FastField>
   );
 };
 

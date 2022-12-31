@@ -1,21 +1,36 @@
-import React, {useEffect, useState, useCallback} from "react";
-import {Autocomplete, TextField} from "@mui/material";
-import {Field} from "formik";
-import {apiCallTry} from "../../axios";
+import React, { useEffect, useState, useCallback } from "react";
+import { TextField } from "@mui/material";
+import { Autocomplete } from "@mui/material";
+import { Field, useField } from "formik";
+import { apiCallTry } from "../../axios";
 import axios from "axios";
+import { NOT_FOUND } from "../../Messages";
 
-const MyAutocomplete = ({url, autocomplete, textfield, label, name}) => {
-  const [data, setData] = useState({data: [], links: [], meta: []});
+const MyAutocomplete2 = ({
+  url,
+  autocomplete,
+  textfield,
+  label,
+  name,
+  options,
+}) => {
+  const [data, setData] = useState({ data: [], links: [], meta: [] });
   const [typedtext, setTypedtext] = useState("");
   const [page, setPage] = useState(1);
   const [autocompleteValue, setAutocompleteValue] = useState("");
-  console.log(data.data)
+  const [bluredValue, setBluredValue] = useState("");
+
+  useEffect(() => {
+    setTypedtext(url?.initialtypedtext ?? "");
+    setAutocompleteValue(url?.initialtypedtext ?? "");
+  }, [url]);
 
   const getData = useCallback(async () => {
     if (url) {
-      let the = url?.base + "?";
-      the += typedtext !== "" ? url?.typedtext + "=" + typedtext : "";
-      the += "&page=" + page;
+      let the =
+        url?.base[url?.base?.length - 1] === "&" ? url?.base : url?.base + "?";
+      the += "page=" + page;
+      the += typedtext !== "" ? "&" + url?.typedtext + "=" + typedtext : "";
 
       const response = await apiCallTry(() => axios.get(the));
 
@@ -33,11 +48,28 @@ const MyAutocomplete = ({url, autocomplete, textfield, label, name}) => {
     return () => clearTimeout(withDelay);
   }, [getData]);
 
+  const [field] = useField({ name: name });
+
+  useEffect(() => {
+    if (!field.value && autocompleteValue) {
+      setAutocompleteValue("");
+      setTypedtext("");
+    }
+  }, [field]);
+
+  useEffect(() => {
+    if (bluredValue !== "" && bluredValue !== autocompleteValue) {
+      setBluredValue("");
+      setTypedtext(autocompleteValue);
+    }
+  }, [autocompleteValue, bluredValue]);
+
   return (
     <Field name={name}>
-      {({field, form}) => {
-        const {onBlur} = field;
-        const {getRequestValue, ...restAutocomplete} = autocomplete;
+      {({ field, form }) => {
+        const { onBlur, value } = field;
+        const { getRequestValue, ...restAutocomplete } = autocomplete;
+        const theOptions = options ?? data.data;
 
         return (
           <Autocomplete
@@ -46,17 +78,17 @@ const MyAutocomplete = ({url, autocomplete, textfield, label, name}) => {
             fullWidth
             blurOnSelect
             autoHighlight
-            options={data.data}
-            filterOptions={(x) => x}
+            noOptionsText={NOT_FOUND}
+            size="small"
+            options={theOptions}
             onChange={(_, newValue) => {
+              console.log(newValue);
               newValue === null && setTypedtext("");
               form.setFieldValue(name, getRequestValue(newValue) ?? "");
               setAutocompleteValue(restAutocomplete.getOptionLabel(newValue));
             }}
-            onBlur={(e) =>
-              e.target.value !== autocompleteValue &&
-              setTypedtext(autocompleteValue)
-            }
+            onBlur={(e) => setBluredValue(e.target.value)}
+            value={theOptions.find((e) => getRequestValue(e) === value) ?? null}
             {...restAutocomplete}
             renderInput={(params) => (
               <TextField
@@ -79,4 +111,5 @@ const MyAutocomplete = ({url, autocomplete, textfield, label, name}) => {
     </Field>
   );
 };
-export default MyAutocomplete;
+
+export default MyAutocomplete2;
