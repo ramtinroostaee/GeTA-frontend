@@ -1,7 +1,7 @@
-import Requests from "./App"
+import Offers from "./App"
 import {Navigate} from "react-router-dom";
 
-const RequestsConfig = {
+const OffersConfig = {
   settings: {
     layout: {
       config: {
@@ -25,15 +25,15 @@ const RequestsConfig = {
   },
   routes: [
     {
-      path: "requests",
+      path: "offers",
       exact: true,
-      element: <Requests/>,
+      element: <Offers/>,
     },
     {
-      path: "requests",
-      element: () => <Navigate to="/requests"/>,
+      path: "offers",
+      element: () => <Navigate to="/offers"/>,
     },
   ],
 };
 
-export default RequestsConfig;
+export default OffersConfig;
