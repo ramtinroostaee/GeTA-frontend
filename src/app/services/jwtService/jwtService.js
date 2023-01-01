@@ -76,7 +76,7 @@ class JwtService extends FuseUtils.EventEmitter {
         if (response.data.user) {
           const theUser = {
             data: {...response.data.user, displayName: response.data.user?.username},
-            loginRedirectUrl: "/example",
+            loginRedirectUrl: "/courses",
             role: ["user"]
           };
 
