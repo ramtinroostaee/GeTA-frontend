@@ -127,7 +127,7 @@ const App = () => {
       <WrapperD
         open={open}
         handleClose={() => setOpen(false)}
-        title={"افزودن درخواست"}
+        title={"افزودن پیشنهاد"}
         handleSubmit={() => ref?.current?.handleSubmit()}
       >
         {Form}

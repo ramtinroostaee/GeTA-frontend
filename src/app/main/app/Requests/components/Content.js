@@ -153,8 +153,7 @@ export const WrapperD = ({open, title, handleClose, children, handleSubmit}) => 
     keepMounted
     maxWidth={"md"}
     fullWidth
-    onClose={() => {
-    }}
+    onClose={handleClose}
     aria-describedby="alert-dialog-slide-description">
     <AppBar className="mb-16" position="static" elevation={0}>
       <Toolbar className="flex w-full justify-between">
