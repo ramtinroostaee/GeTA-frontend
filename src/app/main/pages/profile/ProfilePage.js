@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import AboutTab from './tabs/AboutTab';
 import PhotosVideosTab from './tabs/PhotosVideosTab';
 import TimelineTab from './tabs/TimelineTab';
+import {useSelector} from "react-redux";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-topBg': {
@@ -54,6 +55,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const username = useSelector(({auth}) => auth?.user?.data?.username);
 
   function handleTabChange(event, value) {
     setSelectedTab(value);
@@ -86,7 +88,7 @@ function ProfilePage() {
                   variant="h4"
                   color="inherit"
                 >
-                  John Doe
+                  {username}
                 </Typography>
               </motion.div>
 
