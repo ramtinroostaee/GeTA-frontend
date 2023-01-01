@@ -1,6 +1,7 @@
 import CoursesConfig from "./courses/CoursesConfig";
+import RequestsConfig from "./Requests/RequestsConfig";
 
-const appsConfigs = [CoursesConfig];
+const appsConfigs = [CoursesConfig, RequestsConfig];
 
 const authApps = appsConfigs.map((e) => ({
   ...e, routes: e.routes.map((route) => ({
